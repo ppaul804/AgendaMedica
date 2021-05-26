@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch TestaConexaoBD",
+            "request": "launch",
+            "mainClass": "Persistencia.TestaConexaoBD",
+            "projectName": "AgendaMedica"
+        },
+        {
+            "type": "java",
+            "name": "Launch TestaInsert",
+            "request": "launch",
+            "mainClass": "Persistencia.TestaInsert",
+            "projectName": "AgendaMedica"
+        },
+        {
+            "type": "java",
+            "name": "Launch TestaLista",
+            "request": "launch",
+            "mainClass": "Persistencia.TestaLista",
+            "projectName": "AgendaMedica"
+        },
+        {
+            "type": "java",
+            "name": "Launch TelaCadastroUsuario",
+            "request": "launch",
+            "mainClass": "view.TelaCadastroUsuario",
+            "projectName": "AgendaMedica"
+        },
+        {
+            "type": "java",
+            "name": "Launch TelaLogin",
+            "request": "launch",
+            "mainClass": "view.TelaLogin",
+            "projectName": "AgendaMedica"
+        }
+    ]
+}
