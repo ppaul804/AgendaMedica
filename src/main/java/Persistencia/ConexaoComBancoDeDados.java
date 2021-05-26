@@ -7,24 +7,15 @@ import java.sql.SQLException;
 
 public class ConexaoComBancoDeDados {
     
-    //url de conexão com banco
-    private final String urlDoBanco = "jdbc:hsqldb:file:BancoDeDados/";
-
-    // nome do Banco
+    private final String urlDoBanco = "jdbc:hsqldb:file:database/";
     private final String nomeDoBanco = "agendaDB;hsqldb.lock_file=false";
-
-    // nome do usuário do banco
     private final String usuarioDoBanco = "SA";
-
-    //
     private final String senha = "";
 
     public Connection conexao;
 
     public void conectar() throws SQLException {
-
         conexao = DriverManager.getConnection(urlDoBanco + nomeDoBanco, usuarioDoBanco, senha);
-
     }
 
     public void desconectar() throws SQLException {

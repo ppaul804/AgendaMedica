@@ -5,7 +5,6 @@ import java.sql.SQLException;
 public class TestaConexaoBD {
 
     public static void main(String[] args) throws SQLException {
-
         ConexaoComBancoDeDados banco = new ConexaoComBancoDeDados();
 
         banco.conectar(); // se houver erro ...jogar exceção sql
