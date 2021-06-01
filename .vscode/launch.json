@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch HSQLDBConnection",
-            "request": "launch",
-            "mainClass": "HSQLDBConnection",
-            "projectName": "AgendaMedica"
-        },
-        {
-            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -21,21 +14,7 @@
             "type": "java",
             "name": "Launch TestaConexaoBD",
             "request": "launch",
-            "mainClass": "Persistencia.TestaConexaoBD",
-            "projectName": "AgendaMedica"
-        },
-        {
-            "type": "java",
-            "name": "Launch TestaInsert",
-            "request": "launch",
-            "mainClass": "Persistencia.TestaInsert",
-            "projectName": "AgendaMedica"
-        },
-        {
-            "type": "java",
-            "name": "Launch TestaLista",
-            "request": "launch",
-            "mainClass": "Persistencia.TestaLista",
+            "mainClass": "datasouces.hsqldb.TestaConexaoBD",
             "projectName": "AgendaMedica"
         },
         {

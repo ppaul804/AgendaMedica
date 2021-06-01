@@ -5,12 +5,10 @@
  */
 package view;
 
-import Entidades.Usuario;
-import Persistencia.UsuarioDAO;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
+import datasouces.hsqldb.models.Usuario;
+import datasouces.hsqldb.repository.UsuarioDAO;
 
 /**
  *
@@ -153,14 +151,17 @@ public class TelaLogin extends javax.swing.JFrame {
             if (usuarioDoBanco.getCpf() == null) {
                 JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválidos");
             } else {
-
-                JOptionPane.showMessageDialog(null, "Acesso concedido!!!");
+                dispose();
+                TelaSistema telaSistema = new TelaSistema();
+                telaSistema.setResizable(false);
+                telaSistema.setLocationRelativeTo(null);
+                telaSistema.setVisible(true);
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
         System.out.println("Username = " + usernameTextField.getText());
-        System.out.println("Senha = " + senhaPasswordField.getText());
+        System.out.println("Senha = " + senhaPasswordField.getPassword().toString());
     }//GEN-LAST:event_acessarButtonActionPerformed
 
     private void senhaPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaPasswordFieldActionPerformed
@@ -172,8 +173,9 @@ public class TelaLogin extends javax.swing.JFrame {
         dispose();
 
         TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
+        telaCadastroUsuario.setResizable(false);
+        telaCadastroUsuario.setLocationRelativeTo(null);
         telaCadastroUsuario.setVisible(true);
-
 
     }//GEN-LAST:event_registreLabelMouseClicked
 

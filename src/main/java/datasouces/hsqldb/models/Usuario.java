@@ -1,8 +1,10 @@
 
-package Entidades;
+package datasouces.hsqldb.models;
 
-import java.util.Date;
-import lombok.*;
+import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -16,5 +18,5 @@ public class Usuario {
     private int codigoPerfil;
     private String telefone;
     private String matricula;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 }

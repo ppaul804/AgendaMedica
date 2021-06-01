@@ -1,4 +1,4 @@
-package Entidades;
+package datasouces.hsqldb.models;
 
 import lombok.*;
 

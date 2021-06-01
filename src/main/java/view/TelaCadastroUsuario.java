@@ -5,14 +5,16 @@
  */
 package view;
 
-import Controller.UsuarioController;
-import Entidades.Usuario;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import javax.swing.JOptionPane;
+
+import controllers.UsuarioController;
+import datasouces.hsqldb.models.Usuario;
+import helper.Helper;
 
 /**
  *
@@ -36,6 +38,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tipoUsuarioGroup = new javax.swing.ButtonGroup();
         formularioPanel = new javax.swing.JPanel();
         cpfLabel = new javax.swing.JLabel();
         cpfFormatadoTextField = new javax.swing.JFormattedTextField();
@@ -50,6 +53,11 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         nascimentoLabel = new javax.swing.JLabel();
         nascimentoFormatadoTextField = new javax.swing.JFormattedTextField();
         cadastrarButton = new javax.swing.JButton();
+        voltarButton = new javax.swing.JButton();
+        tipoUsuarioLabel = new javax.swing.JLabel();
+        administradorRadioButton = new javax.swing.JRadioButton();
+        comumRadioButton = new javax.swing.JRadioButton();
+        avancadoRadioButton = new javax.swing.JRadioButton();
         tituloScrollPanel = new javax.swing.JScrollPane();
         tituloTextArea = new javax.swing.JTextArea();
 
@@ -107,75 +115,133 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
             }
         });
 
+        voltarButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        voltarButton.setText("VOLTAR");
+        voltarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarButtonActionPerformed(evt);
+            }
+        });
+
+        tipoUsuarioLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tipoUsuarioLabel.setText("TIPO DE USUÁRIO");
+
+        tipoUsuarioGroup.add(administradorRadioButton);
+        administradorRadioButton.setText("Administrador");
+        administradorRadioButton.setActionCommand("101");
+        administradorRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                administradorRadioButtonActionPerformed(evt);
+            }
+        });
+
+        tipoUsuarioGroup.add(comumRadioButton);
+        comumRadioButton.setSelected(true);
+        comumRadioButton.setText("Comum");
+        comumRadioButton.setActionCommand("102");
+
+        tipoUsuarioGroup.add(avancadoRadioButton);
+        avancadoRadioButton.setText("Avançado");
+        avancadoRadioButton.setActionCommand("103");
+
         javax.swing.GroupLayout formularioPanelLayout = new javax.swing.GroupLayout(formularioPanel);
         formularioPanel.setLayout(formularioPanelLayout);
         formularioPanelLayout.setHorizontalGroup(
             formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formularioPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(formularioPanelLayout.createSequentialGroup()
+                            .addComponent(nomeLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(nomeTextField))
+                        .addGroup(formularioPanelLayout.createSequentialGroup()
+                            .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(formularioPanelLayout.createSequentialGroup()
+                                    .addComponent(cpfLabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cpfFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(formularioPanelLayout.createSequentialGroup()
+                                    .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formularioPanelLayout.createSequentialGroup()
+                                                .addComponent(nascimentoLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(nascimentoFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formularioPanelLayout.createSequentialGroup()
+                                                .addComponent(usernameLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(formularioPanelLayout.createSequentialGroup()
+                                            .addComponent(telefoneLabel)
+                                            .addGap(32, 32, 32)
+                                            .addComponent(telefoneFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(33, 33, 33)
+                                    .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(formularioPanelLayout.createSequentialGroup()
+                                            .addComponent(senhaLabel)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(senhaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(formularioPanelLayout.createSequentialGroup()
+                                            .addComponent(tipoUsuarioLabel)
+                                            .addGap(18, 18, 18)
+                                            .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(administradorRadioButton)
+                                                .addComponent(comumRadioButton)
+                                                .addComponent(avancadoRadioButton))))))
+                            .addGap(3, 3, 3)))
                     .addGroup(formularioPanelLayout.createSequentialGroup()
-                        .addComponent(cpfLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(cpfFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(formularioPanelLayout.createSequentialGroup()
-                        .addComponent(nomeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nomeTextField))
-                    .addGroup(formularioPanelLayout.createSequentialGroup()
-                        .addComponent(telefoneLabel)
-                        .addGap(32, 32, 32)
-                        .addComponent(telefoneFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(formularioPanelLayout.createSequentialGroup()
-                        .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formularioPanelLayout.createSequentialGroup()
-                                .addComponent(nascimentoLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nascimentoFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formularioPanelLayout.createSequentialGroup()
-                                .addComponent(usernameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(33, 33, 33)
-                        .addComponent(senhaLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(senhaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(voltarButton)
+                        .addGap(171, 171, 171)
+                        .addComponent(cadastrarButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formularioPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cadastrarButton)
-                .addGap(248, 248, 248))
         );
         formularioPanelLayout.setVerticalGroup(
             formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formularioPanelLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cpfLabel)
                     .addGroup(formularioPanelLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(cpfFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeLabel)
                     .addComponent(nomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameLabel)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(senhaLabel)
                     .addComponent(senhaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(telefoneLabel)
-                    .addComponent(telefoneFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nascimentoLabel)
-                    .addComponent(nascimentoFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(cadastrarButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(formularioPanelLayout.createSequentialGroup()
+                        .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(formularioPanelLayout.createSequentialGroup()
+                                .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(telefoneLabel)
+                                    .addComponent(telefoneFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(nascimentoLabel)
+                                    .addComponent(nascimentoFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(formularioPanelLayout.createSequentialGroup()
+                                .addComponent(administradorRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comumRadioButton)
+                                .addGap(4, 4, 4)
+                                .addComponent(avancadoRadioButton)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cadastrarButton)
+                            .addComponent(voltarButton)))
+                    .addGroup(formularioPanelLayout.createSequentialGroup()
+                        .addComponent(tipoUsuarioLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         tituloTextArea.setEditable(false);
@@ -191,21 +257,21 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(formularioPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(formularioPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(tituloScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tituloScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tituloScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tituloScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(formularioPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -216,41 +282,42 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_nomeTextFieldActionPerformed
 
     private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
-
         UsuarioController usuarioController = new UsuarioController();
-
         Usuario usuario = new Usuario();
-
-        usuario.setCpf(cpfFormatadoTextField.getText().replace("-", "").replace(".", "").trim());
-
-        usuario.setNome(nomeTextField.getText().trim());
-
-        usuario.setUsername(usernameTextField.getText().trim().toLowerCase());
-
-        usuario.setSenha(String.valueOf(senhaTextField.getPassword()).trim());
-
-        usuario.setTelefone(telefoneFormatadoTextField.getText());
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         try {
-
-            usuario.setDataNascimento(sdf.parse(nascimentoFormatadoTextField.getText()));
+            usuario.setCodigoPerfil(Helper.getInt(tipoUsuarioGroup));
+            usuario.setMatricula("2532");
+            usuario.setCpf(cpfFormatadoTextField.getText().replaceAll("[-\\.]", "").trim());
+            usuario.setNome(nomeTextField.getText().trim());
+            usuario.setUsername(usernameTextField.getText().trim().toLowerCase());
+            usuario.setSenha(String.valueOf(senhaTextField.getPassword()));
+            usuario.setTelefone(telefoneFormatadoTextField.getText().replaceAll("[\\(\\)\\-\\s]", ""));
+            usuario.setDataNascimento(LocalDate.parse(nascimentoFormatadoTextField.getText(), formatter));
 
             usuarioController.cadastrarUsuario(usuario);
-
-        } catch (ParseException ex) {
-
-            JOptionPane.showMessageDialog(null, "A data de nascimento deve ser preenchida!");
-
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, "A data de nascimento deve ser preenchida!", "ERRO",
+                    JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-
             System.out.println(ex);
-
         }
 
-
     }//GEN-LAST:event_cadastrarButtonActionPerformed
+
+    private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
+        dispose();
+        
+        TelaLogin telaLogin = new TelaLogin();
+        telaLogin.setResizable(false);
+        telaLogin.setLocationRelativeTo(null);
+        telaLogin.setVisible(true);
+    }//GEN-LAST:event_voltarButtonActionPerformed
+
+    private void administradorRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administradorRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_administradorRadioButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,7 +358,10 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton administradorRadioButton;
+    private javax.swing.JRadioButton avancadoRadioButton;
     private javax.swing.JButton cadastrarButton;
+    private javax.swing.JRadioButton comumRadioButton;
     private javax.swing.JFormattedTextField cpfFormatadoTextField;
     private javax.swing.JLabel cpfLabel;
     private javax.swing.JPanel formularioPanel;
@@ -303,9 +373,12 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JPasswordField senhaTextField;
     private javax.swing.JFormattedTextField telefoneFormatadoTextField;
     private javax.swing.JLabel telefoneLabel;
+    private javax.swing.ButtonGroup tipoUsuarioGroup;
+    private javax.swing.JLabel tipoUsuarioLabel;
     private javax.swing.JScrollPane tituloScrollPanel;
     private javax.swing.JTextArea tituloTextArea;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
+    private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables
 }
