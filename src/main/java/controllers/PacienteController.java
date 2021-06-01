@@ -32,11 +32,11 @@ public class PacienteController {
 
         // REGRA 04 - TELEFONE NÃO PODE SER NULO OU SEM PREENCHIMENTO
         if (paciente.getTelefone() != null || paciente.getTelefone().equals(""))
-            mensagensDeErro.append("O USERNAME deve ter no máximo 08 caracteres \n");
+            mensagensDeErro.append("TELEFONE não pode ser nulo ou sem preenchimento \n");
 
             // REGRA 04 - ENDEREÇO NÃO PODE SER NULO OU SEM PREENCHIMENTO
         if (paciente.getEndereco() != null || paciente.getEndereco().equals(""))
-            mensagensDeErro.append("O ENDEREÇO deve ter no máximo 08 caracteres \n");
+            mensagensDeErro.append("ENDEREÇO não pode ser nulo ou sem preenchimento \n");
 
         if (mensagensDeErro.length() != 0) {
             JOptionPane.showMessageDialog(null, mensagensDeErro.toString(), "ERRO", JOptionPane.ERROR_MESSAGE);

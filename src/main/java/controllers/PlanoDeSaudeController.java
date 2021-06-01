@@ -18,25 +18,25 @@ public class PlanoDeSaudeController {
     }
 
     private boolean validarDadosDeTela(PlanoDeSaude planoDeSaude) throws SQLException {
-        // REGRA 01 - CPF NÃO PODE SER NULO
+        // REGRA 01 - CODIGO PLANO NÃO PODE SER NULO
         if (planoDeSaude.getCodigoPlano() == null || planoDeSaude.getCodigoPlano().equals(""))
-            mensagensDeErro.append("O CodigoPlano deve ser preenchido! \n");
+            mensagensDeErro.append("O CODIGO PLANO deve ser preenchido! \n");
 
-        // REGRA 02 - CPF ÚNICO
+        // REGRA 02 - O OPERADORA DEVE SER PREENCHIDO
         if (planoDeSaude.getOperadora() == null || planoDeSaude.getOperadora().equals(""))
         mensagensDeErro.append("O Operadora deve ser preenchido! \n");
         
-        // REGRA 03 - USERNAME NÃO PODE SER NULO OU SEM PREENCHIMENTO
+        // REGRA 03 - TELEFONE NÃO PODE SER NULO OU SEM PREENCHIMENTO
         if (planoDeSaude.getTelefone() == null || planoDeSaude.getTelefone().equals(""))
-        mensagensDeErro.append("O USERNAME deve ser preenchido! \n");
+        mensagensDeErro.append("TELEFONE não pode ser nulo ou sem preenchimento! \n");
         
-        // REGRA 04 - USERNAME NÃO PODE TER MAIS DE 8 CARACTERES
+        // REGRA 04 - ENDERECO NÃO PODE SER NULO OU SEM PREENCHIMENTO
         if (planoDeSaude.getEndereco() == null || planoDeSaude.getEndereco().equals(""))
-            mensagensDeErro.append("O USERNAME deve ter no máximo 08 caracteres \n");
+            mensagensDeErro.append("ENDERECO não pode ser nulo ou sem preenchimento \n");
 
-        // REGRA 05 - USERNAME NÃO PODE TER MENOS DE 3 CARACTERES
+        // REGRA 05 - REGISTRO ANS NÃO PODE SER NULO OU SEM PREENCHIMENTO
         if (planoDeSaude.getRegistroAns() == null || planoDeSaude.getRegistroAns().equals(""))
-            mensagensDeErro.append("O USERNAME deve ter no mímimo 03 caracteres \n");
+            mensagensDeErro.append("REGISTRO ANS não pode ser nulo ou sem preenchimento \n");
             
         if (mensagensDeErro.length() != 0) {
             JOptionPane.showMessageDialog(null, mensagensDeErro.toString(), "ERRO", JOptionPane.ERROR_MESSAGE);
