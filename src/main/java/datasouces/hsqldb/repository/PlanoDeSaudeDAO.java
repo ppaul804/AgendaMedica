@@ -99,7 +99,7 @@ public class PlanoDeSaudeDAO extends ConexaoBD implements InterfaceDAO<PlanoDeSa
         List<PlanoDeSaude> listaDePlanoDeSaudes = new ArrayList<PlanoDeSaude>();
 
         try (Connection c = getConnection()) {
-            PreparedStatement pst = c.prepareStatement("SELECT * FROM USUARIO");
+            PreparedStatement pst = c.prepareStatement("SELECT * FROM PLANO_DE_SAUDE");
             ResultSet list = pst.executeQuery();
             while (list.next()) {
                 PlanoDeSaude planoDeSaude = new PlanoDeSaude();
@@ -115,6 +115,29 @@ public class PlanoDeSaudeDAO extends ConexaoBD implements InterfaceDAO<PlanoDeSa
             System.out.println(e);
         }
         return listaDePlanoDeSaudes;
+    }
+
+    public int buscarPorCodigoPlano(String codigoPlano) {
+        PlanoDeSaude planoDeSaude = new PlanoDeSaude();
+        try (Connection c = getConnection()) {
+            PreparedStatement pstm = c.prepareStatement("SELECT * FROM PLANO_DE_SAUDE WHERE CODIGO_PLANO = ?");
+            pstm.setString(1, codigoPlano);
+            ResultSet list = pstm.executeQuery();
+            while (list.next()) {
+                if (list.getString("CODIGO_PLANO").equals(codigoPlano)) {
+                    planoDeSaude.setId(list.getInt("ID"));
+                    planoDeSaude.setCodigoPlano(list.getString("CODIGO_PLANO"));
+                    planoDeSaude.setOperadora(list.getString("OPERADORA"));
+                    planoDeSaude.setTelefone(list.getString("TELEFONE"));
+                    planoDeSaude.setEndereco(list.getString("ENDERECO"));
+                    planoDeSaude.setRegistroAns(list.getString("REGISTRO_ANS"));
+                    return planoDeSaude.getId();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
     }
 
 }

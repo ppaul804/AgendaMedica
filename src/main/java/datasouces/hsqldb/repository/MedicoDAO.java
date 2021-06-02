@@ -103,7 +103,7 @@ public class MedicoDAO extends ConexaoBD implements InterfaceDAO<Medico> {
         List<Medico> listaDeMedicos = new ArrayList<Medico>();
 
         try (Connection c = getConnection()) {
-            PreparedStatement pst = c.prepareStatement("SELECT * FROM USUARIO");
+            PreparedStatement pst = c.prepareStatement("SELECT * FROM MEDICO");
             ResultSet list = pst.executeQuery();
             while (list.next()) {
                 Medico medico = new Medico();
@@ -122,4 +122,27 @@ public class MedicoDAO extends ConexaoBD implements InterfaceDAO<Medico> {
         return listaDeMedicos;
     }
 
+    public int buscarPorNome(String nome) {
+        Medico medico = new Medico();
+        try (Connection c = getConnection()) {
+            PreparedStatement pstm = c.prepareStatement("SELECT * FROM MEDICO WHERE NOME = ?");
+            pstm.setString(1, nome);
+            ResultSet list = pstm.executeQuery();
+            while (list.next()) {
+                if (list.getString("NOME").equals(nome)) {
+                    medico.setCrm(list.getInt("CRM"));
+                    medico.setNome(list.getString("NOME"));
+                    medico.setEspecialidade(list.getString("ESPECIALIDADE"));
+                    medico.setSexo(list.getString("SEXO").charAt(0));
+                    LocalDate dataDeNascimento = DateTimeHelper.toLocalDate(list.getDate("DATA_DE_NASCIMENTO"));
+                    medico.setDataDeNascimento(dataDeNascimento);
+                    medico.setSalario(new BigDecimal(list.getInt("SALARIO")));
+                    return medico.getCrm();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
 }

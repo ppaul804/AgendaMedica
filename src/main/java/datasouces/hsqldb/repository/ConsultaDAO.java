@@ -1,9 +1,6 @@
 package datasouces.hsqldb.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +11,9 @@ import datasouces.hsqldb.models.Consulta;
 import helper.DateTimeHelper;
 
 public class ConsultaDAO extends ConexaoBD implements InterfaceDAO<Consulta> {
+
+    private Date dataDaConsulta;
+    private Time horaDaConsulta;
 
     @Override
     public void salvar(Consulta consulta) {
@@ -124,4 +124,28 @@ public class ConsultaDAO extends ConexaoBD implements InterfaceDAO<Consulta> {
         return listaDeConsultas;
     }
 
+    public boolean existeDataEHora(Consulta consulta) {
+        dataDaConsulta = DateTimeHelper.toDate(consulta.getDataDaConsulta());
+        horaDaConsulta = DateTimeHelper.toTime(consulta.getHoraDaConsulta());
+
+        String sql =  "SELECT DATA_DA_CONSULTA, HORA_DA_CONSULTA FROM CONSULTA " +
+                "WHERE " +
+                "      DATA_DA_CONSULTA = ? " +
+                "  and HORA_DA_CONSULTA = ? ";
+        try (Connection c = getConnection()) {
+            PreparedStatement pstm = c.prepareStatement(sql);
+            pstm.setDate(1, dataDaConsulta);
+            pstm.setTime(2, horaDaConsulta);
+            ResultSet list = pstm.executeQuery();
+
+            if (list.getFetchSize() > 0)
+                return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
 }
+ 

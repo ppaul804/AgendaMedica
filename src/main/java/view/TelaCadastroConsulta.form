@@ -28,7 +28,7 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="formularioPanel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="26" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="tituloScrollPanel" min="-2" pref="455" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -42,8 +42,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tituloScrollPanel" min="-2" pref="103" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="formularioPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="formularioPanel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -102,24 +102,31 @@
                               <Component id="dataDaConsultaFormatadoTextField" min="-2" pref="130" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="idPacienteLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="idPacienteTextField" min="-2" pref="83" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="salaLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="salaTextField" min="-2" pref="83" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="planoLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="planoComboBox" min="-2" pref="120" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="pacienteLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="pacienteComboBox" min="-2" pref="120" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="idPlanoLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="idPlanoTextField" min="-2" pref="83" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="crmMedicoLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="crmMedicoTextField" min="-2" pref="83" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="medicoLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="medicoComboBox" min="-2" pref="119" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="salaLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="salaTextField" min="-2" pref="83" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -132,21 +139,19 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="idPlanoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="idPlanoTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="crmMedicoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="crmMedicoTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="planoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="medicoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="medicoComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="planoComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="idPacienteLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="idPacienteTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="pacienteLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="salaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="salaTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="pacienteComboBox" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -169,44 +174,55 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="idPlanoLabel">
+        <Component class="javax.swing.JLabel" name="planoLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="ID PLANO"/>
+            <Property name="text" type="java.lang.String" value="PLANO"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="idPlanoTextField">
+        <Component class="javax.swing.JComboBox" name="planoComboBox">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idPlanoTextFieldActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="planoComboBoxActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="crmMedicoLabel">
+        <Component class="javax.swing.JLabel" name="medicoLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="CRM M&#xc9;DICO"/>
+            <Property name="text" type="java.lang.String" value="M&#xc9;DICO"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="crmMedicoTextField">
+        <Component class="javax.swing.JComboBox" name="medicoComboBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="crmMedicoTextFieldActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="medicoComboBoxActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="idPacienteLabel">
+        <Component class="javax.swing.JLabel" name="pacienteLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="ID PACIENTE"/>
+            <Property name="text" type="java.lang.String" value="PACIENTE"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="idPacienteTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idPacienteTextFieldActionPerformed"/>
-          </Events>
+        <Component class="javax.swing.JComboBox" name="pacienteComboBox">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="salaLabel">
           <Properties>

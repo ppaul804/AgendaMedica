@@ -106,7 +106,7 @@ public class PacienteDAO extends ConexaoBD implements InterfaceDAO<Paciente> {
         List<Paciente> listaDePacientes = new ArrayList<Paciente>();
 
         try (Connection c = getConnection()) {
-            PreparedStatement pst = c.prepareStatement("SELECT * FROM USUARIO");
+            PreparedStatement pst = c.prepareStatement("SELECT * FROM PACIENTE");
             ResultSet list = pst.executeQuery();
             while (list.next()) {
                 Paciente paciente = new Paciente();
@@ -150,5 +150,30 @@ public class PacienteDAO extends ConexaoBD implements InterfaceDAO<Paciente> {
             return null;
         }
         return null;
+    }
+
+    public int buscarPorNome(String nome) {
+        Paciente paciente = new Paciente();
+        try (Connection c = getConnection()) {
+            PreparedStatement pstm = c.prepareStatement("SELECT * FROM PACIENTE WHERE NOME = ?");
+            pstm.setString(1, nome);
+            ResultSet list = pstm.executeQuery();
+            while (list.next()) {
+                if (list.getString("NOME").equals(nome)) {
+                    paciente.setId(list.getInt("ID"));
+                    paciente.setCpf(list.getString("CPF"));
+                    paciente.setNome(list.getString("NOME"));
+                    paciente.setTelefone(list.getString("TELEFONE"));
+                    LocalDate dataDeNascimento = DateTimeHelper.toLocalDate(list.getDate("DATA_DE_NASCIMENTO"));
+                    paciente.setDataDeNascimento(dataDeNascimento);
+                    paciente.setEndereco(list.getString("ENDERECO"));
+                    paciente.setSexo(list.getString("SEXO").charAt(0));
+                    return paciente.getId();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
     }
 }

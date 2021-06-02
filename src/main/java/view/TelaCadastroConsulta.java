@@ -10,23 +10,52 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 import controllers.ConsultaController;
 import datasouces.hsqldb.models.Consulta;
+import datasouces.hsqldb.models.Medico;
+import datasouces.hsqldb.models.Paciente;
+import datasouces.hsqldb.models.PlanoDeSaude;
+import datasouces.hsqldb.repository.MedicoDAO;
+import datasouces.hsqldb.repository.PacienteDAO;
+import datasouces.hsqldb.repository.PlanoDeSaudeDAO;
 
 /**
  *
  * @author Paul-PC
  */
 public class TelaCadastroConsulta extends javax.swing.JFrame {
+    PlanoDeSaudeDAO planoDeSaudeDAO = new PlanoDeSaudeDAO();
+    PacienteDAO pacienteDAO = new PacienteDAO();
+    MedicoDAO medicoDAO = new MedicoDAO();
+
+    List<PlanoDeSaude> listaPlanoDAO = planoDeSaudeDAO.listarTodos();
+    List<Paciente> listaPacienteDAO = pacienteDAO.listarTodos();
+    List<Medico> listaMedicoDAO = medicoDAO.listarTodos();
 
     /**
      * Creates new form TelaCadastroConsulta
      */
     public TelaCadastroConsulta() {
         initComponents();
+        List<String> planos = new ArrayList<>();
+        List<String> pacientes = new ArrayList<>();
+        List<String> medicos = new ArrayList<>();
+
+        listaPlanoDAO.forEach(plano -> planos.add(plano.getCodigoPlano()));
+        listaPacienteDAO.forEach(paciente -> pacientes.add(paciente.getNome()));
+        listaMedicoDAO.forEach(medico -> medicos.add(medico.getNome()));
+        
+        planoComboBox.setModel(new DefaultComboBoxModel<>(planos.toArray(new String[planos.size()])));
+        pacienteComboBox.setModel(new DefaultComboBoxModel<>(pacientes.toArray(new String[pacientes.size()])));
+        medicoComboBox.setModel(new DefaultComboBoxModel<>(medicos.toArray(new String[medicos.size()])));
+
+    
     }
 
     /**
@@ -41,12 +70,12 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
         tituloScrollPanel = new javax.swing.JScrollPane();
         tituloTextArea = new javax.swing.JTextArea();
         formularioPanel = new javax.swing.JPanel();
-        idPlanoLabel = new javax.swing.JLabel();
-        idPlanoTextField = new javax.swing.JTextField();
-        crmMedicoLabel = new javax.swing.JLabel();
-        crmMedicoTextField = new javax.swing.JTextField();
-        idPacienteLabel = new javax.swing.JLabel();
-        idPacienteTextField = new javax.swing.JTextField();
+        planoLabel = new javax.swing.JLabel();
+        planoComboBox = new javax.swing.JComboBox<>();
+        medicoLabel = new javax.swing.JLabel();
+        medicoComboBox = new javax.swing.JComboBox<>();
+        pacienteLabel = new javax.swing.JLabel();
+        pacienteComboBox = new javax.swing.JComboBox<>();
         salaLabel = new javax.swing.JLabel();
         salaTextField = new javax.swing.JTextField();
         dataDaConsultaLabel = new javax.swing.JLabel();
@@ -67,32 +96,26 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
 
         formularioPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Formulário de cadastro de consulta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
-        idPlanoLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        idPlanoLabel.setText("ID PLANO");
+        planoLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        planoLabel.setText("PLANO");
 
-        idPlanoTextField.addActionListener(new java.awt.event.ActionListener() {
+        planoComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idPlanoTextFieldActionPerformed(evt);
+                planoComboBoxActionPerformed(evt);
             }
         });
 
-        crmMedicoLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        crmMedicoLabel.setText("CRM MÉDICO");
+        medicoLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        medicoLabel.setText("MÉDICO");
 
-        crmMedicoTextField.addActionListener(new java.awt.event.ActionListener() {
+        medicoComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crmMedicoTextFieldActionPerformed(evt);
+                medicoComboBoxActionPerformed(evt);
             }
         });
 
-        idPacienteLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        idPacienteLabel.setText("ID PACIENTE");
-
-        idPacienteTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idPacienteTextFieldActionPerformed(evt);
-            }
-        });
+        pacienteLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        pacienteLabel.setText("PACIENTE");
 
         salaLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         salaLabel.setText("SALA");
@@ -156,23 +179,26 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                         .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(horaDaConsultaFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dataDaConsultaFormatadoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formularioPanelLayout.createSequentialGroup()
-                            .addComponent(idPacienteLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(idPacienteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(salaLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(salaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formularioPanelLayout.createSequentialGroup()
-                            .addComponent(idPlanoLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(idPlanoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(crmMedicoLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(crmMedicoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(formularioPanelLayout.createSequentialGroup()
+                        .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(formularioPanelLayout.createSequentialGroup()
+                                .addComponent(planoLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(planoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(formularioPanelLayout.createSequentialGroup()
+                                .addComponent(pacienteLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pacienteComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(22, 22, 22)
+                        .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(formularioPanelLayout.createSequentialGroup()
+                                .addComponent(medicoLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(medicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(formularioPanelLayout.createSequentialGroup()
+                                .addComponent(salaLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(salaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         formularioPanelLayout.setVerticalGroup(
@@ -180,18 +206,17 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
             .addGroup(formularioPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idPlanoLabel)
-                    .addComponent(idPlanoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crmMedicoLabel)
-                    .addComponent(crmMedicoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(planoLabel)
+                    .addComponent(medicoLabel)
+                    .addComponent(medicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(planoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(idPacienteLabel)
-                        .addComponent(idPacienteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pacienteLabel)
                     .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(salaLabel)
-                        .addComponent(salaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(salaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pacienteComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formularioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataDaConsultaLabel)
@@ -216,7 +241,7 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(formularioPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 26, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(tituloScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -226,8 +251,8 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tituloScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(formularioPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(formularioPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -241,18 +266,19 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
         ConsultaController consultaController = new ConsultaController();
         Consulta consulta = new Consulta();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         try {
-            consulta.setIdPlanoDeSaude(Integer.parseInt(idPlanoTextField.getText()));
-            consulta.setIdPaciente(Integer.parseInt(idPacienteTextField.getText()));
-            consulta.setCrmMedico(Integer.parseInt(crmMedicoTextField.getText()));
+            consulta.setIdPlanoDeSaude(planoDeSaudeDAO.buscarPorCodigoPlano(planoComboBox.getSelectedItem().toString()));
+            consulta.setIdPaciente(pacienteDAO.buscarPorNome(pacienteComboBox.getSelectedItem().toString()));
+            consulta.setCrmMedico(medicoDAO.buscarPorNome(medicoComboBox.getSelectedItem().toString()));
             consulta.setSala(salaTextField.getText());
             consulta.setDataDaConsulta(LocalDate.parse(dataDaConsultaFormatadoTextField.getText(), dateFormatter));
             consulta.setHoraDaConsulta(LocalTime.parse(horaDaConsultaFormatadoTextField.getText(), timeFormatter));
 
             consultaController.cadastrarConsulta(consulta);
         } catch (DateTimeParseException ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Data e/ou hora da consulta inválida", "ERRO",
                 JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
@@ -268,18 +294,18 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
         telaSistema.setLocationRelativeTo(null);
         telaSistema.setVisible(true);
     }//GEN-LAST:event_voltarButtonActionPerformed
-
-    private void idPlanoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idPlanoTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idPlanoTextFieldActionPerformed
-
-    private void idPacienteTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idPacienteTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idPacienteTextFieldActionPerformed
     
     private void crmMedicoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:crmMedicoTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:crmMedicoTextFieldActionPerformed
+
+    private void medicoComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicoComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_medicoComboBoxActionPerformed
+
+    private void planoComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_planoComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_planoComboBoxActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -314,23 +340,24 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TelaCadastroConsulta().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cadastrarButton;
-    private javax.swing.JLabel crmMedicoLabel;
-    private javax.swing.JTextField crmMedicoTextField;
     private javax.swing.JFormattedTextField dataDaConsultaFormatadoTextField;
     private javax.swing.JLabel dataDaConsultaLabel;
     private javax.swing.JPanel formularioPanel;
     private javax.swing.JFormattedTextField horaDaConsultaFormatadoTextField;
     private javax.swing.JLabel horaDaConsultaLabel;
-    private javax.swing.JLabel idPacienteLabel;
-    private javax.swing.JTextField idPacienteTextField;
-    private javax.swing.JLabel idPlanoLabel;
-    private javax.swing.JTextField idPlanoTextField;
+    private javax.swing.JComboBox<String> medicoComboBox;
+    private javax.swing.JLabel medicoLabel;
+    private javax.swing.JComboBox<String> pacienteComboBox;
+    private javax.swing.JLabel pacienteLabel;
+    private javax.swing.JComboBox<String> planoComboBox;
+    private javax.swing.JLabel planoLabel;
     private javax.swing.JLabel salaLabel;
     private javax.swing.JTextField salaTextField;
     private javax.swing.JScrollPane tituloScrollPanel;
